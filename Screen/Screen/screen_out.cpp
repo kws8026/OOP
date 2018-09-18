@@ -4,24 +4,98 @@
 #include <conio.h>
 #include <Windows.h>
 
-void check_range(int* pos, int screen_size)
-{
-	if (*pos < 0) *pos = 0;
-	if (*pos >= screen_size - 1) *pos = screen_size - 1;
-}
+class Player {
+	int pos = 20;
+	char face[100] = "(-_-)";
+public:
+	void move(int inc) { pos += inc;  }
+
+	int getPosition() const { return pos;  }
+	void checkRange(int screen_size)
+	{
+		if (pos < 0) pos = 0;
+		if (pos >= screen_size - 1) pos = screen_size - 1;
+	}
+	void draw(char* screen, int screen_size)
+	{
+		checkRange(screen_size);
+		strncpy(screen + pos, face, strlen(face));
+	}
+};
+
+class Enemy {
+	int pos = 50;
+	char face[100] = "(*_*)";
+	char faceAttacked[100] = "(>__<)";
+	int nAnimations = 0;
+public:
+	void move(int inc) { pos += inc; }
+	int getPosition() const { return pos; }
+	void checkRange(int screen_size)
+	{
+		if (pos < 0) pos = 0;
+		if (pos >= screen_size - 1) pos = screen_size - 1;
+	}
+	void draw(char* screen, int screen_size)
+	{
+		checkRange(screen_size);
+		strncpy(screen + pos, face, strlen(face));
+	}
+	void update()
+	{
+		if (nAnimations == 0) return;
+		nAnimations--;
+		if (nAnimations == 0) {
+			strcpy(face, "(^_^)");
+		}
+	}
+	void OnHit()
+	{
+		nAnimations= 30;
+		strcpy(face, faceAttacked);
+	}
+
+};
+
+class Bullet {
+	int pos = -1;
+	char shape = '-';
+public:
+	Bullet(int player_pos) : pos(player_pos) {}
+	void move(int inc) { pos += inc; }
+	int getPosition() { return pos; }
+	void checkRange(int screen_size)
+	{
+		if (pos < 0) pos = 0;
+		if (pos >= screen_size - 1) pos = screen_size - 1;
+	}
+	void draw(char* screen, int screen_size)
+	{
+		checkRange(screen_size);
+		screen[pos] = shape;
+	}
+
+	void update(const Player* player, const Enemy* enemy)
+	{
+		if (!player || !enemy) return;
+		if (player->getPosition() < enemy->getPosition())
+		{
+			move(1);
+		}
+		else {
+			move(-1);
+		}
+	}
+};
+
 
 int main()
 {
 	const int screen_size = 119;
 	char screen[screen_size + 1 + 1];
-	int player_pos = 20;
-	int enemy_pos = 50;
-	char player[100];
-	char enemy[100];
-
-	strcpy(player, "(^_^)");
-	strcpy(enemy, "(*__*)");
-	int bullet_pos = -1;
+	Player player;
+	Enemy enemy;
+	Bullet* pBullet = nullptr;		
 
 	while (true)
 	{
@@ -37,34 +111,40 @@ int main()
 
 			switch (key) {
 			case 'a': case 75:
-				player_pos--;
+				player.move(-1);
 				break;
 			case 'd': case 77:
-				player_pos++;
+				player.move(1);
 				break;
 			case 72:
-				enemy_pos++;
+				enemy.move(1);
 				break;
 			case 80:
-				enemy_pos--;
+				enemy.move(-1);
 				break;
 			case ' ':
-				bullet_pos = player_pos;
+				if (pBullet == nullptr) {
+					pBullet = new Bullet(player.getPosition());
+				}
 				break;
+			}				
+		}
+		player.draw(screen, screen_size);
+		enemy.draw(screen, screen_size);
+		if (pBullet != nullptr) {
+			pBullet->draw(screen, screen_size);
+			if (pBullet->getPosition() == enemy.getPosition())
+			{
+				enemy.OnHit();
+				delete pBullet;
+				pBullet = nullptr;
+			}
+			else {
+				pBullet->update(&player, &enemy);
 				
 			}
 		}
-		check_range(&player_pos, screen_size);
-		check_range(&enemy_pos, screen_size);
-		strncpy(screen + player_pos, player, strlen(player));
-		strncpy(screen + enemy_pos, enemy, strlen(enemy));
-		if (bullet_pos >= 0 && bullet_pos <= screen_size) {
-			screen[bullet_pos] = '-';
-			
-			if (player_pos < enemy_pos) bullet_pos++;
-			else if (enemy_pos < player_pos) bullet_pos--;
-			if (bullet_pos == enemy_pos) bullet_pos = -1;
-		}
+		enemy.update();
 
 		screen[screen_size] = '\r';
 		screen[screen_size + 1] = 0;
