@@ -1,3 +1,6 @@
 ﻿  screen_out.cpp
-  Screen.vcxproj -> C:\Users\B407-\Documents\GitHub\OOP\Screen\Debug\Screen.exe
-  Screen.vcxproj -> C:\Users\B407-\Documents\GitHub\OOP\Screen\Debug\Screen.pdb (Full PDB)
+d:\workingspace\oop\screen\screen\screen_out.cpp(135): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+d:\workingspace\oop\screen\screen\screen_out.cpp(259): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+d:\workingspace\oop\screen\screen\screen_out.cpp(424): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+  Screen.vcxproj -> D:\WorkingSpace\OOP\Screen\Debug\Screen.exe
+  Screen.vcxproj -> D:\WorkingSpace\OOP\Screen\Debug\Screen.pdb (Full PDB)
