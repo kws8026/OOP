@@ -49,22 +49,22 @@ public:
 		display[screenSize + 1] = '\0';
 	}
 
-	void draw(const string& shape, int pos)
+	void draw(const string& shape, Position pos)
 	{
-		int dest_pos = pos;
-		if (checkRange(shape, pos) == false) return;
+        Position dest_pos = pos;
+		if (checkRange(shape, pos.x) == false) return;
 
 		const char* source = shape.c_str();
 		int len = shape.size();
-		if (pos < 0) {
-			source -= pos;
-			len += pos;
-			dest_pos = 0;
+		if (pos.x < 0) {
+			source -= pos.x;
+			len += pos.x;
+			dest_pos.x = 0;
 		}
-		else if (pos + shape.size() > screenSize - 1) {
-			len = screenSize - pos;
+		else if (pos.x + shape.size() > screenSize - 1) {
+			len = screenSize - pos.x;
 		}
-		memcpy(display + dest_pos, source, len);
+		memcpy(display + dest_pos.x, source, len);
 	}
 
 	void render()

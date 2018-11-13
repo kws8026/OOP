@@ -19,7 +19,7 @@ class Enemies {
 public:
 	Enemies(Players& players)
 		: renderer(Renderer::getInstance()), n_killed(0), n_remainings_for_respawn(30), players(players), max_enemies(5)
-	{	container.push_back(new Enemy(players, rand() % renderer.getScreenLength())); }
+	{	container.push_back(new Enemy(players, {rand() % renderer.getScreenLength(),0 })); }
 
 	int getNumberOfKilled() { return n_killed; }
 
@@ -29,7 +29,8 @@ public:
 		if (n_remainings_for_respawn <= 0) {
 			// reset the timer for the next enemy spawning
 			if (container.size() < max_enemies)
-				container.push_back(new Enemy(players, rand() % renderer.getScreenLength()));
+				container.push_back(new Enemy(players, {rand() % renderer.getScreenLength(), 0
+        }));
 			n_remainings_for_respawn = 30;
 		} else {
 			n_remainings_for_respawn--;
@@ -57,15 +58,15 @@ public:
 		for (auto enemy : container) printf("%2.1f %2.1f  ", enemy->getPosition(), enemy->getHP());
 	}
 
-	Enemy* findClosest(float pos)
+	Enemy* findClosest(Position pos)
 	{
 		Enemy* closest = nullptr;
 		float dist = 0.0f;
-		if (renderer.checkRange(pos) == false) return closest;
+		if (renderer.checkRange(pos.x) == false) return closest;
 		for (auto enemy : container) {
-			float enemy_pos = enemy->getPosition();
-			if (renderer.checkRange(enemy_pos) == false) continue;
-			float current_dist = fabs(pos - enemy_pos);
+			Position enemy_pos = enemy->getPosition();
+			if (renderer.checkRange(enemy_pos.x) == false) continue;
+			float current_dist = fabs((float)pos.x - (float)enemy_pos.x);
 			if (!closest) {
 				dist = current_dist;
 				closest = enemy;

@@ -8,7 +8,7 @@ class Player : public GameObject, public Damageable {
 	float	hp;
 	
 public:
-	Player(int hp = 10, int pos = 20, const string& face= "(-_-)")
+	Player(int hp = 10, Position pos = {20,0}, const string& face= "(-_-)")
 		: GameObject(pos, face), Damageable(2.0f/30), hp(hp)
 	{}
 
@@ -16,7 +16,7 @@ public:
 
 	bool getDamagedIfAttacked(const GameObject& attacker)
 	{
-		if (fabs(getPosition() - attacker.getPosition()) > 2.0f) return false;
+		if (fabs((float)getPosition().x - (float)attacker.getPosition().x) > 2.0f) return false;
 		hp -= getDamage();
 		return true;
 	}
@@ -33,7 +33,7 @@ class Ship : public Player {
 	string 		faceLeft;
 	string		faceRight;
 public:
-	Ship(int hp = 10, int pos = 20, const string& shape="|____|", Direction direction = Direction::Left) 
+	Ship(int hp = 10, Position pos = {20,0}, const string& shape="|____|", Direction direction = Direction::Left)
 		: Player(hp, pos, shape), direction(direction), faceLeft(shape), faceRight(shape)
 	{}
 
@@ -59,14 +59,14 @@ public:
 class Boat : public Ship {
 
 public:
-	Boat(int hp = 5, int pos = 20, Direction direction=Direction::Left) : Ship(hp, pos, "+", direction) {}
+	Boat(int hp = 5, Position pos = {20,0}, Direction direction=Direction::Left) : Ship(hp, pos, "+", direction) {}
 
 };
 
 class MainShip : public Ship {
 
 public:
-	MainShip(int hp = 10, int pos = 20, const string& shape="-____|", Direction direction=Direction::Left) 
+	MainShip(int hp = 10, Position pos = {20,0}, const string& shape="-____|", Direction direction=Direction::Left)
 		: Ship(hp, pos, shape, direction) 
 	{
 		setDirectionalFace("-____|", "|____-");
@@ -76,7 +76,7 @@ public:
 class BlinkablePlayer : public Player {
 	int		nBlinks;
 public:
-	BlinkablePlayer(int hp = 10, int pos = 20 )
+	BlinkablePlayer(int hp = 10, Position pos = {20,0} )
 		: Player(hp, pos), nBlinks(0)
 	{}
 

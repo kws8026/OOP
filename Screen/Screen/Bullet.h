@@ -6,7 +6,7 @@
 class Bullet : public GameObject {
 	float damagePower;
 public:
-	Bullet(int player_pos = -1, const char* shape = ">", float damagePower = 1.0f)
+	Bullet(Position player_pos = {-1,0}, const char* shape = ">", float damagePower = 1.0f)
 		: GameObject(player_pos, shape), damagePower(damagePower) {}
 
 	virtual Direction getDirection() const 
@@ -27,14 +27,14 @@ public:
 		if (isAlive() == false) return;
 
 		// movement is decided by its shape.
-		if (getShape() == ">") move(1.0f);
-		else if (getShape() == "<") move(-1.0f);
+		if (getShape() == ">") move(1);
+		else if (getShape() == "<") move(-1);
 	}
 
 	bool isAlive() 
 	{ 
 		if (damagePower <= 0.0f) return false; // if a bullet has no damage power, it will be considered dead.
-		return getPosition() >= 0.0f && getPosition() < getScreenLength(); // if it appears within the sight, it will be considered alive. otherwise, dead.
+		return getPosition().x >= 0 && getPosition().x < getScreenLength(); // if it appears within the sight, it will be considered alive. otherwise, dead.
 	}
 };
 
@@ -43,7 +43,7 @@ public:
 class Cannonball : public Bullet {
 	Direction direction;
 public:
-	Cannonball(int player_pos = -1, Direction direction = Direction::Left, const char* shape = "*" )
+	Cannonball(Position player_pos = {-1,0}, Direction direction = Direction::Left, const char* shape = "*" )
 		: Bullet(player_pos, shape), direction(direction) {}
 
 	Direction getDirection() const { return direction; }
@@ -61,7 +61,7 @@ public:
 // otherwise, its appears inappropriately.
 class PenetrableCannonball : public Cannonball {	
 public:
-	PenetrableCannonball(int player_pos = -1, Direction direction = Direction::Left) 
+	PenetrableCannonball(Position player_pos = {-1,0}, Direction direction = Direction::Left)
 		: Cannonball(player_pos, direction, direction == Direction::Left ? "<-" : "->") {}
 
 	void hit() { setDamagePower(getDamagePower()- 0.2f); };

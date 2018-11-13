@@ -66,9 +66,9 @@ public:
 
 	void fire(const Ship& player)
 	{
-		float player_pos = player.getPosition();
+		Position player_pos = player.getPosition();
 		// if the player's position is out of range, simply ignore this fire request.
-		if (renderer.checkRange(player_pos) == false) return;
+		if (renderer.checkRange(player_pos.x) == false) return;
 
 		// examine whether PenetrableCannonball is ready.
 		if (n_penetrable_cool_time == 0) {

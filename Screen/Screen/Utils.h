@@ -3,10 +3,16 @@
 
 #include <Windows.h>
 
+
+
 struct Position {
 	int x;
 	int y;
 	Position(int x, int y) : x(x), y(y) {}
+    Position operator+(Position &ref){
+        return Position(x+ref.x,y+ref.y);}
+    Position operator-(Position &ref){
+        return Position(x - ref.x, y - ref.y);}
 };
 
 class Borland {

@@ -9,27 +9,27 @@ using namespace std;
 
 class GameObject {
 	Renderer& renderer;
-	float pos;
+	Position pos;
 	string shape;
 
 public:
-	GameObject(int pos, const char* shape) : renderer(Renderer::getInstance()), pos(pos), shape(shape) {}
-	GameObject(int pos, const string& shape) : GameObject(pos, shape.c_str()) {}
+	GameObject(Position pos, const char* shape) : renderer(Renderer::getInstance()), pos(pos), shape(shape) {}
+	GameObject(Position pos, const string& shape) : GameObject(pos, shape.c_str()) {}
 	virtual ~GameObject() {} // very important!!!
 
-	void setPosition(float pos) { this->pos = pos; }
-	float getPosition() const { return pos; }
+	void setPosition(Position pos) { this->pos = pos; }
+    Position getPosition() const { return pos; }
 
 	void setShape(const char* shape) { this->shape = shape; }
 	void setShape(const string& shape) { this->shape = shape; }
 	const string& getShape() const { return shape; }
 	int getShapeSize() const { return shape.size(); }
 
-	void move(float inc) { pos += inc; }
+	void move(int x, int y =0) { pos = pos + Position(x,y); }
 	virtual void update() {}
 	virtual void draw() { drawToRenderer(shape, pos); }
 
-	void drawToRenderer(const string& shape, int pos) { renderer.draw(shape, pos); }
+	void drawToRenderer(const string& shape, Position pos) { renderer.draw(shape, pos); }
 
 	int getScreenLength() const { return renderer.getScreenLength(); }
 };

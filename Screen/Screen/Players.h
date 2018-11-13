@@ -51,16 +51,16 @@ public:
 			auto main = dynamic_cast<Ship *>(getMainCharacter());
 			if (main) {
 				// add the boat as the way the problem requires.
-				int main_pos = (float)main->getPosition();
+				Position main_pos = main->getPosition();
 				Direction dir = main->getDirection();
 				int probabilisticValue = rand() % 100;
-				int target_pos = main_pos;
+				Position target_pos = main_pos;
 				if (dir == Direction::Left) {
-					target_pos = (probabilisticValue < 20) ?
-						target_pos + (7 + rand() % 4) : target_pos - (1 + rand() % 4);
+					target_pos.x = (probabilisticValue < 20) ?
+						target_pos.x + (7 + rand() % 4) : target_pos.x - (1 + rand() % 4);
 				} else {
-					target_pos = (probabilisticValue < 20) ?
-						target_pos - (1 + rand() % 4) : target_pos + (7 + rand() % 4);
+					target_pos.x = (probabilisticValue < 20) ?
+						target_pos.x - (1 + rand() % 4) : target_pos.x + (7 + rand() % 4);
 				}
 				container.push_back(new Boat(5, target_pos, dir));
 				n_launch_cool_time = 5 * 30;
