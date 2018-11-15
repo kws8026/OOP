@@ -154,6 +154,8 @@
     <ClInclude Include="Enemies.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Monster.h" />
+    <ClInclude Include="Monsters.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Players.h" />
     <ClInclude Include="Renderer.h" />

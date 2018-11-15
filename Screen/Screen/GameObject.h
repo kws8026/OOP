@@ -4,6 +4,8 @@
 #include <iostream>
 #include <cstring>
 #include <string>
+#include "Utils.h"
+#include "Renderer.h"
 
 using namespace std;
 
@@ -25,7 +27,10 @@ public:
 	const string& getShape() const { return shape; }
 	int getShapeSize() const { return shape.size(); }
 
-	void move(int x, int y =0) { pos = pos + Position(x,y); }
+	void move(int x, int y =0) {
+    pos = pos + Position(x,y); }
+    void move(Position vector) { move(vector.x, vector.y); }
+
 	virtual void update() {}
 	virtual void draw() { drawToRenderer(shape, pos); }
 

@@ -8,8 +8,10 @@ using namespace std;
 
 class Renderer {
 
-	static const int screenSize = 119;
-	char		display[screenSize + 1 + 1];
+	static const int screenWidth = 119;
+    static const int screenHeight = 25;
+
+	char		display[screenWidth + 1 + 1][screenHeight];
 	Position	origin;
 
 	Renderer() : origin(Borland::wherex(), Borland::wherey()) {
@@ -25,60 +27,54 @@ public:
 		return instance;
 	}	
 
-	bool checkRange(const string& shape, int pos)
+	bool checkRange(const string& shape, Position pos)
 	{
 		int sz = shape.size();
-		if (pos < 0) {
-			if (pos + sz >= 0) return true;
+		if (pos.x > 0) {
+            if (pos.x + sz < screenWidth) return true;
 		}
-		else {
-			if (pos + sz < screenSize) return true;
-		}
+        if (pos.y > 0) {
+            if (pos.y + sz < screenHeight-1) return true;
+        }
 		return false;
 	}
 
 	bool checkRange(int pos)
 	{
-		return pos >= 0 && pos < (screenSize - 1);
+		return pos >= 0 && pos < (screenWidth - 1);
 	}
 
 	void clear()
 	{
-		memset(display, ' ', screenSize);
-		display[screenSize] = '\n';
-		display[screenSize + 1] = '\0';
+		memset(display, ' ', (screenWidth + 1 + 1 )*screenHeight);
+        for(int i = 0; i < screenHeight; i++){
+		    display[screenWidth][i] = '\n';
+		    display[screenWidth + 1][i] = '\0';
+        }
 	}
 
-	void draw(const string& shape, Position pos)
+	bool draw(const string& shape, Position pos)
 	{
-        Position dest_pos = pos;
-		if (checkRange(shape, pos.x) == false) return;
-
-		const char* source = shape.c_str();
-		int len = shape.size();
-		if (pos.x < 0) {
-			source -= pos.x;
-			len += pos.x;
-			dest_pos.x = 0;
-		}
-		else if (pos.x + shape.size() > screenSize - 1) {
-			len = screenSize - pos.x;
-		}
-		memcpy(display + dest_pos.x, source, len);
+		if (checkRange(shape, pos) == false) return false;
+		memcpy(&display[pos.x][pos.y], shape.c_str(), shape.size());
+        return true;
 	}
 
 	void render()
 	{
 		// make sure it should end with proper ending characters.
-		display[screenSize] = '\n';
-		display[screenSize + 1] = '\0';
+        for (int i = 0; i < screenHeight; i++) {
+            display[screenWidth][i] = '\n';
+            display[screenWidth + 1][i] = '\0';
+        }
 
 		Borland::gotoxy(&origin);
 		cout << display;
 		Borland::gotoxy(&origin);
 	}
 
-	int getScreenLength() { return screenSize; }
+	int getScreenLength() { return screenWidth; }
+    Position getScreenSize() { return {screenWidth,screenHeight}; }
 };
 
 #endif 

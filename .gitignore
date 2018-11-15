@@ -11,3 +11,8 @@ Screen/Screen/x64/Debug/Screen.tlog/Screen.lastbuildstate
 Screen/Screen/x64/Debug/Screen.tlog/unsuccessfulbuild
 Screen/Screen/x64/Debug/vc140.pdb
 Screen/Screen/x64/Debug/vc140.idb
+*.obj
+*.tlog
+*.ilk
+*.pdb
+*.exe
