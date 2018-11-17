@@ -122,7 +122,7 @@ public:
 			}
 		}
 
-		Borland::gotoxy(0, 3); printf("# of bullets = %2d ", container.size());		
+		Borland::gotoxy(0, 3); printf("# of bullets = %2d ", (int)container.size());
 		printf("%5s %20s\n", n_remaining_cool_time == 0 ? "ready" : " ", n_penetrable_cool_time == 0 ? "penCannonball ready" : " ");
 		Borland::gotoxy(0, 4); for (auto bullet : container) printf("%2.1f ", bullet->getDamagePower());
 	}

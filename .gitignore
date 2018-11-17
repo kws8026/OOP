@@ -16,3 +16,9 @@ Screen/Screen/x64/Debug/vc140.idb
 *.ilk
 *.pdb
 *.exe
+*.db
+*.ipch
+*.log
+*.idb
+*.enc
+Screen/.vs/Screen/v15/.suo

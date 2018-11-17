@@ -39,7 +39,7 @@ public:
 		// update all enemies
 		for (auto enemy : container) enemy->update();
 		
-		int size = container.size();
+		int size = (int)container.size();
 		container.erase(remove_if(container.begin(), container.end(), 
 			[](Enemy* enemy) { 
 				if (enemy->isAlive() == false) { 
@@ -48,14 +48,14 @@ public:
 				}
 				return false; 
 			}), container.end());
-		n_killed += size - container.size();
+		n_killed += size - (int)container.size();
 	}
 
 	void draw()
 	{
 		for (auto enemy : container) enemy->draw();
-		Borland::gotoxy(0, 2); printf("# of enemies = %2d,  ", container.size());
-		for (auto enemy : container) printf("%2.1f %2.1f  ", enemy->getPosition(), enemy->getHP());
+		Borland::gotoxy(0, 2); printf("# of enemies = %2d,  ", (int)container.size());
+		for (auto enemy : container) printf("%2d %2.1f  ", enemy->getPosition().x, enemy->getHP());
 	}
 
 	Enemy* findClosest(Position pos)

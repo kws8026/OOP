@@ -1,4 +1,4 @@
-#ifndef UTILS_H_
+﻿#ifndef UTILS_H_
 #define UTILS_H_
 
 #include <Windows.h>
@@ -8,7 +8,7 @@
 struct Position {
 	int x;
 	int y;
-	Position(int x, int y) : x(x), y(y) {}
+	Position(int x=0, int y=0) : x(x), y(y) {}
     Position operator+(Position &ref){
         return Position(x+ref.x,y+ref.y);}
     Position operator+(int &ref) {

@@ -52,8 +52,8 @@ public:
 	{
 		if (isAlive() == false) return;
 		// using direction info, it moves forward accordingly.
-		if (direction == Direction::Left) move(-1.0f);
-		else move(1.0f);
+		if (direction == Direction::Left) move(-1);
+		else move(1);
 	}
 };
 

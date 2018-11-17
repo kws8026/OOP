@@ -2,19 +2,29 @@
 #define MONSTER_H_
 
 #include "GameObject.h"
+#include "Items.h"
 
-class Monster : public GameObject {
-    string		face;
+class Monster : public GameObject
+{
+	Items& items;
+	unsigned int n_absorbedItem;
 public:
-    Monster(Position pos = { 50,0 }, int hp = 10, const string& face = "(*_*)")
-        : GameObject(pos, face),face(face)
+	Monster(Position pos = { 50,0 }, const string& shape = "&")
+        : n_absorbedItem(0),items(Items::getInstance()),GameObject(pos, shape)
     {
     }
 
     void update()
     {
-      move(rand() % 2 - 1, rand() % 2 - 1);
+      move(rand() % 3 - 1, rand() % 3 - 1);
+	  n_absorbedItem += items.absorbed(*this);
     }
+	int getAbsorbedItem() 
+	{ 
+		return n_absorbedItem; 
+	}
 };
+
+
 #endif
 

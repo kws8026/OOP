@@ -23,7 +23,7 @@ public:
 
 	virtual void displayStat()
 	{
-		printf("[pos: %2.1f hp:%2.1f] ", getPosition(), hp);
+		printf("[pos: %2d,%2d hp:%2.1f] ", getPosition().x, getPosition().y, hp);
 	}
 };
 
